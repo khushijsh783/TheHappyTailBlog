@@ -37,7 +37,7 @@ function PostDetail() {
       <h1>{post.title}</h1>
       <p>By {post.author} • {new Date(post.createdAt).toLocaleDateString()}</p>
       <div style={{ marginTop: '20px', whiteSpace: 'pre-wrap' }}>{post.content}</div>
-      {user && post.userId === user._id && (
+      {user && post.userId?.toString() === user.id?.toString() && (
         <button onClick={handleDelete} className="btn" style={{ marginTop: '20px', background: '#e74c3c' }}>
           Delete Post
         </button>

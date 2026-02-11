@@ -12,7 +12,7 @@ function CreatePost() {
     const postData = {
       ...form,
       author: `${user.firstName} ${user.lastName}`,
-      userId: user._id,
+      userId: user.id,
     };
     const res = await fetch('/api/posts', {
       method: 'POST',
