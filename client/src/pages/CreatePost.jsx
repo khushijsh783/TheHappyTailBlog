@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function CreatePost() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ title: '', content: '', author: '' });
+  const { user } = useAuth();
+  const [form, setForm] = useState({ title: '', content: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const postData = {
+      ...form,
+      author: `${user.firstName} ${user.lastName}`,
+      userId: user._id,
+    };
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify(postData),
     });
     if (res.ok) {
       navigate('/');
@@ -26,13 +33,6 @@ function CreatePost() {
           placeholder="Title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Author"
-          value={form.author}
-          onChange={(e) => setForm({ ...form, author: e.target.value })}
           required
         />
         <textarea
